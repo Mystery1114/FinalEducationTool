@@ -1,0 +1,19 @@
+modules = ["nodejs-20", "web"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Serve Dashboard"
+
+[[workflows.workflow]]
+name = "Serve Dashboard"
+author = 44786793
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd \"WEB PANEL\" && npx http-server -p 5000 -a 0.0.0.0"
+
+[[ports]]
+localPort = 5000
