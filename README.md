@@ -3,8 +3,6 @@
 
 A modern, ethical Android device management dashboard built with Firebase and Material Design. This tool provides real-time device monitoring and control capabilities through a clean web interface.
 
-![Dashboard Preview](https://via.placeholder.com/800x400/667eea/ffffff?text=Android+Control+Dashboard)
-
 ## ⚠️ Legal Disclaimer
 
 **FOR EDUCATIONAL AND AUTHORIZED USE ONLY**
